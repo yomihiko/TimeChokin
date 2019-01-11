@@ -1,0 +1,29 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.displaySelect{
+	-fx-background-color:  F4511E;
+	-fx-border-color: FFAB91;
+	-fx-border-width: 3px 1px 0 1px;
+	-fx-cursor: hand;
+}
+.icons{
+	-fx-cursor: hand;
+
+}
+.disLabel{
+	-fx-text-fill: white;
+}
+.addBtn{
+	-fx-background-color:  F4511E;
+	-fx-background-radius: 100%;
+	-fx-cursor: hand;
+}
+.addBtn:hover{
+	-fx-background-color:  D84315;
+}
+.topPane{
+	-fx-background-color:   F1F8E9;
+}
+.goalArea{
+	-fx-border-color: BDBDBD;
+}
