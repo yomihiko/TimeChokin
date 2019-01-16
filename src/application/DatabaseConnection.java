@@ -16,16 +16,20 @@ public class DatabaseConnection {
 	private static String db;
 	private static String user;
 	private static String pass;
-	public DatabaseConnection() {
+	public  static void connect() {
 		try {
 			Scanner sc = new Scanner(new File("database/.database"),"UTF-8");
 			db = "jdbc:mysql://"+sc.next()+"/"+sc.next();
 			user = sc.next();
 			pass = sc.next();
+			sc.close();
 		} catch (FileNotFoundException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
+	}
+	public static String getUser() {
+		return user;
 	}
 	public static ResultSet select(String sql,String value) {
 		try {

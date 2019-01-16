@@ -9,30 +9,64 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.effect.BlurType;
-import javafx.scene.effect.InnerShadow;
-import javafx.scene.paint.Color;
+import javafx.scene.input.MouseEvent;
 
 public class MasterController implements Initializable  {
 	@FXML
     private Button testBtn;
+
 	@FXML
     private Label goalLabel_1;
 
     @FXML
-    private Label rateLabel_1;
-    @FXML
-    private ProgressBar progressBar_1;
-	private TodayGoal t;
+    private Label goalLabel_2;
 
     @FXML
-    void OnTestBtn(ActionEvent event) {
-    	System.out.println(t.getAchievementRate() + "%");
-    	InnerShadow s = new InnerShadow();
-    	s.setColor(Color.web("5b2100"));
-    	s.setBlurType(BlurType.THREE_PASS_BOX);
-    	testBtn.setEffect(s);
-    	DatabaseConnection d = new DatabaseConnection();
+    private Label goalLabel_3;
+
+    @FXML
+    private Label goalLabel_4;
+
+    @FXML
+    private ProgressBar progressBar_1;
+
+    @FXML
+    private ProgressBar progressBar_2;
+
+    @FXML
+    private ProgressBar progressBar_3;
+
+    @FXML
+    private ProgressBar progressBar_4;
+
+    @FXML
+    private Label rateLabel_1;
+
+    @FXML
+    private Label rateLabel_2;
+
+    @FXML
+    private Label rateLabel_3;
+
+    @FXML
+    private Label rateLabel_4;
+    
+    private Label[] goalLabels = {goalLabel_1,goalLabel_2,goalLabel_3,goalLabel_4};
+    private ProgressBar[] progressBars = {progressBar_1,progressBar_2,progressBar_3,progressBar_4};
+	private TodayGoal t;
+
+	@FXML
+    public void onTestBtn(ActionEvent event) {
+    	DatabaseConnection.connect();
+    	goalLabel_1.setText(DatabaseConnection.getUser());
+    }
+    @FXML
+    public void onTestBtnPress(MouseEvent event) {
+    	testBtn.setEffect(ShadowEffect.pushBtnMouseEffect());
+    }
+    @FXML
+    public void onTestBtnExit(MouseEvent event) {
+    	testBtn.setEffect(ShadowEffect.releaseBtnMouseEffect());
     }
 
 	@Override
