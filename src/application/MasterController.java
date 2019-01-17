@@ -10,71 +10,130 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
 public class MasterController implements Initializable  {
 	@FXML
-    private Button testBtn;
+	protected AnchorPane masterPane;
+	@FXML
+    protected AnchorPane homePane;
 
 	@FXML
-    private Label goalLabel_1;
+    protected AnchorPane coinPane;
+
+	@FXML
+    protected AnchorPane homeSelectSwitch;
 
     @FXML
-    private Label goalLabel_2;
+    protected AnchorPane coinSelectSwitch;
+	@FXML
+    protected Button testBtn;
+
+	@FXML
+    protected Label goalLabel_1;
 
     @FXML
-    private Label goalLabel_3;
+    protected Label goalLabel_2;
 
     @FXML
-    private Label goalLabel_4;
+    protected Label goalLabel_3;
 
     @FXML
-    private ProgressBar progressBar_1;
+    protected Label goalLabel_4;
 
     @FXML
-    private ProgressBar progressBar_2;
+    protected ProgressBar progressBar_1;
 
     @FXML
-    private ProgressBar progressBar_3;
+    protected ProgressBar progressBar_2;
 
     @FXML
-    private ProgressBar progressBar_4;
+    protected ProgressBar progressBar_3;
 
     @FXML
-    private Label rateLabel_1;
+    protected ProgressBar progressBar_4;
 
     @FXML
-    private Label rateLabel_2;
+    protected Label rateLabel_1;
 
     @FXML
-    private Label rateLabel_3;
+    protected Label rateLabel_2;
 
     @FXML
-    private Label rateLabel_4;
-    
-    private Label[] goalLabels = {goalLabel_1,goalLabel_2,goalLabel_3,goalLabel_4};
-    private ProgressBar[] progressBars = {progressBar_1,progressBar_2,progressBar_3,progressBar_4};
-	private TodayGoal t;
+    protected Label rateLabel_3;
+
+    @FXML
+    protected Label rateLabel_4;
+
+    protected Label[] goalLabels = {goalLabel_1,goalLabel_2,goalLabel_3,goalLabel_4};
+    protected ProgressBar[] progressBars = {progressBar_1,progressBar_2,progressBar_3,progressBar_4};
+    protected Label[] rateLabels = {rateLabel_1,rateLabel_2,rateLabel_3,rateLabel_4};
+	protected TodayGoal t;
+	/**
+	 * nowDisplay 現在表示している画面
+	 */
+	private AnchorPane nowDisplay;
+	/**
+	 * nowSwitch 現在表示しているページのスイッチ
+	 */
+	private AnchorPane nowSwitch;
+	/**
+	 * 押しているときの影エフェクトの色(オレンジ系統)
+	 */
+	private String orangePressShadowColor = "903700";
+	/**
+	 * 離しているときの影エフェクトの色(オレンジ系統)
+	 */
+	private String orangeExitShadowColor = "5b2100";
+	private HomePane homePaneIns;
 
 	@FXML
     public void onTestBtn(ActionEvent event) {
-    	DatabaseConnection.connect();
-    	goalLabel_1.setText(DatabaseConnection.getUser());
+    	DatabaseConnection maindb = new DatabaseConnection("database/.database");
+    	goalLabel_1.setText(maindb.getUser());
+
     }
     @FXML
     public void onTestBtnPress(MouseEvent event) {
-    	testBtn.setEffect(ShadowEffect.pushBtnMouseEffect());
+    	ShadowEffect.setColor(orangePressShadowColor);
+    	ShadowEffect.setInnerShadow(testBtn);
     }
     @FXML
     public void onTestBtnExit(MouseEvent event) {
-    	testBtn.setEffect(ShadowEffect.releaseBtnMouseEffect());
+    	ShadowEffect.setColor(orangeExitShadowColor);
+    	ShadowEffect.setDropShadow(testBtn);
+    }
+    @FXML
+    void onCoinSelectSwitch(MouseEvent event) {
+    	displaySwitching(coinPane,coinSelectSwitch);
+    }
+
+    @FXML
+    void onHomeSelectSwitch(MouseEvent event) {
+    	displaySwitching(homePane,homeSelectSwitch);
+    	homePaneIns = new HomePane();
+
+    }
+    private void displaySwitching(AnchorPane mainPane,AnchorPane switchPane) {
+    	nowDisplay.setVisible(false);
+    	nowSwitch.setId("");
+    	nowSwitch.setEffect(null);
+    	nowDisplay = mainPane;
+    	nowSwitch = switchPane;
+    	mainPane.setVisible(true);
+    	switchPane.setId("selectedSwitch");
+    	ShadowEffect.setColor(orangePressShadowColor);
+    	ShadowEffect.setInnerShadow(switchPane);
     }
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO 自動生成されたメソッド・スタブ
-		t = new TodayGoal(1, "英語勉強", 100, 1, 74);
-		goalLabel_1.setText(t.getGoalName());
-		rateLabel_1.setText(t.getAchievementRate() + "%");
-		progressBar_1.setProgress(t.getAchievementRateDouble());
+		nowDisplay = homePane;
+		nowSwitch = homeSelectSwitch;
+		nowSwitch.setId("selectedSwitch");
+
+		ShadowEffect.setColor(orangePressShadowColor);
+    	ShadowEffect.setInnerShadow(nowSwitch);
 	}
 }

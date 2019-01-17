@@ -18,8 +18,17 @@
 	-fx-background-radius: 100%;
 	-fx-cursor: hand;
 }
+.coinDelBtn{
+	-fx-background-color:  e53935;
+	-fx-background-radius: 100%;
+	-fx-cursor: hand;
+}
 .addBtn:hover{
 	-fx-background-color:  D84315;
+}
+#selectedSwitch{
+	-fx-background-color:  D84315;
+	-fx-border-color: BF360C;
 }
 .topPane{
 	-fx-background-color:   F1F8E9;

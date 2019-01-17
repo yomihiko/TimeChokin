@@ -10,15 +10,15 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class DatabaseConnection {
-	private static Connection conn;
-	private static PreparedStatement pst;
-	private static ResultSet rs;
-	private static String db;
-	private static String user;
-	private static String pass;
-	public  static void connect() {
+	private Connection conn;
+	private PreparedStatement pst;
+	private ResultSet rs;
+	private String db;
+	private String user;
+	private String pass;
+	public  DatabaseConnection(String filePath) {
 		try {
-			Scanner sc = new Scanner(new File("database/.database"),"UTF-8");
+			Scanner sc = new Scanner(new File(filePath),"UTF-8");
 			db = "jdbc:mysql://"+sc.next()+"/"+sc.next();
 			user = sc.next();
 			pass = sc.next();
@@ -28,10 +28,10 @@ public class DatabaseConnection {
 			e.printStackTrace();
 		}
 	}
-	public static String getUser() {
+	public String getUser() {
 		return user;
 	}
-	public static ResultSet select(String sql,String value) {
+	public ResultSet select(String sql,String value) {
 		try {
 			conn = DriverManager.getConnection(db,user,pass);
 			pst = conn.prepareStatement(sql);
@@ -46,7 +46,7 @@ public class DatabaseConnection {
 			return null;
 		}
 	}
-	public static ResultSet select(String sql) {
+	public ResultSet select(String sql) {
 		try {
 			conn = DriverManager.getConnection(db,user,pass);
 			pst = conn.prepareStatement(sql);
@@ -60,7 +60,7 @@ public class DatabaseConnection {
 			return null;
 		}
 	}
-	public static void insert(String[] values,String table) {
+	public void insert(String[] values,String table) {
 		try {
 			conn = DriverManager.getConnection(db,user,pass);
 			String sql = "insert into "+table+" values(";
@@ -83,7 +83,7 @@ public class DatabaseConnection {
 			e.printStackTrace();
 		}
 	}
-	public static void close() {
+	public void close() {
 		try {
 			rs.close();
 			pst.close();

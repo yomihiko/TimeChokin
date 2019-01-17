@@ -1,25 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.Point3D?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -29,9 +22,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="500.0" minWidth="400.0" prefHeight="500.0" prefWidth="400.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MasterController">
+<AnchorPane fx:id="masterPane" minHeight="500.0" minWidth="400.0" prefHeight="500.0" prefWidth="400.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MasterController">
    <children>
-      <AnchorPane layoutY="25.0" prefHeight="363.0" prefWidth="400.0" AnchorPane.bottomAnchor="112.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+      <AnchorPane fx:id="homePane" layoutY="25.0" prefHeight="363.0" prefWidth="400.0" AnchorPane.bottomAnchor="112.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
          <children>
             <GridPane prefHeight="208.0" prefWidth="400.0" AnchorPane.bottomAnchor="202.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="90.0">
               <columnConstraints>
@@ -162,6 +155,58 @@
             </Button>
          </children>
       </AnchorPane>
+      <AnchorPane fx:id="coinPane" layoutX="10.0" layoutY="35.0" prefHeight="363.0" prefWidth="400.0" visible="false" AnchorPane.bottomAnchor="112.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+         <children>
+            <Button fx:id="testBtn1" layoutX="316.0" layoutY="279.0" mnemonicParsing="false" onAction="#onTestBtn" onMousePressed="#onTestBtnPress" onMouseReleased="#onTestBtnExit" prefHeight="70.0" prefWidth="70.0" styleClass="coinDelBtn" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="14.0">
+               <font>
+                  <Font name="System Bold" size="27.0" />
+               </font>
+               <effect>
+                  <DropShadow color="#9e0505" />
+               </effect>
+               <graphic>
+                  <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Icons/trashbox.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <GridPane layoutY="70.0" prefHeight="282.0" prefWidth="400.0" AnchorPane.bottomAnchor="81.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="0.0" prefWidth="0.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="384.0" minWidth="10.0" prefWidth="384.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="0.0" prefWidth="0.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="0.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <AnchorPane prefHeight="297.0" prefWidth="384.0" GridPane.columnIndex="1">
+                     <children>
+                        <Label layoutX="14.0" layoutY="128.0" text="コイン名:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="128.0">
+                           <font>
+                              <Font name="Arial Bold" size="24.0" />
+                           </font>
+                        </Label>
+                        <TextField layoutX="121.0" layoutY="129.0" prefHeight="25.0" prefWidth="257.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="129.0" />
+                        <Label layoutX="14.0" layoutY="194.0" prefHeight="39.0" prefWidth="84.0" text="貯金額:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="194.0">
+                           <font>
+                              <Font name="Arial Bold" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" layoutX="121.0" layoutY="194.0" prefHeight="39.0" prefWidth="257.0" text="〇〇時間〇〇分" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="194.0">
+                           <font>
+                              <Font name="Arial Bold" size="24.0" />
+                           </font>
+                        </Label>
+                        <ComboBox layoutX="228.0" layoutY="59.0" prefWidth="150.0" promptText="コインを選択" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="59.0" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </GridPane>
+         </children>
+      </AnchorPane>
       <GridPane layoutY="400.0" prefHeight="30.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
@@ -173,7 +218,7 @@
             <RowConstraints maxHeight="100.0" minHeight="100.0" prefHeight="100.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <AnchorPane prefHeight="100.0" prefWidth="100.0" styleClass="displaySelect">
+            <AnchorPane fx:id="homeSelectSwitch" onMouseClicked="#onHomeSelectSwitch" prefHeight="100.0" prefWidth="100.0" styleClass="displaySelect">
                <children>
                   <GridPane prefHeight="100.0" prefWidth="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                     <columnConstraints>
@@ -245,7 +290,7 @@
                   </GridPane>
                </children>
             </AnchorPane>
-            <AnchorPane prefHeight="100.0" prefWidth="100.0" styleClass="displaySelect" GridPane.columnIndex="1">
+            <AnchorPane fx:id="coinSelectSwitch" onMouseClicked="#onCoinSelectSwitch" prefHeight="100.0" prefWidth="100.0" styleClass="displaySelect" GridPane.columnIndex="1">
                <children>
                   <GridPane prefHeight="100.0" prefWidth="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <columnConstraints>
