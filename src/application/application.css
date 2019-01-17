@@ -1,6 +1,6 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 
-.displaySelect{
+.displaySelectSwitch{
 	-fx-background-color:  F4511E;
 	-fx-border-color: FFAB91;
 	-fx-border-width: 3px 1px 0 1px;
@@ -26,7 +26,7 @@
 .addBtn:hover{
 	-fx-background-color:  D84315;
 }
-#selectedSwitch{
+.selectedSwitch{
 	-fx-background-color:  D84315;
 	-fx-border-color: BF360C;
 }
