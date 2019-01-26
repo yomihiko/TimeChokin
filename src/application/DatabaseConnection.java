@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
+import java.util.StringJoiner;
 
 public class DatabaseConnection {
 	private Connection conn;
@@ -20,6 +21,7 @@ public class DatabaseConnection {
 		try {
 			Scanner sc = new Scanner(new File(filePath),"UTF-8");
 			db = "jdbc:mysql://"+sc.next()+"/"+sc.next();
+			db = db + "?useUnicode=true&characterEncoding=utf8";
 			user = sc.next();
 			pass = sc.next();
 			sc.close();
@@ -28,70 +30,99 @@ public class DatabaseConnection {
 			e.printStackTrace();
 		}
 	}
-	public String getUser() {
-		return user;
-	}
-	public ResultSet select(String sql,String value) {
-		try {
-			conn = DriverManager.getConnection(db,user,pass);
-			pst = conn.prepareStatement(sql);
-			pst.setString(1, value);
-			rs = pst.executeQuery();
-			return rs;
+	public ResultSet select(String sql,String value) throws SQLException {
+		conn = DriverManager.getConnection(db,user,pass);
+		pst = conn.prepareStatement(sql);
+		pst.setString(1, value);
+		rs = pst.executeQuery();
+		return rs;
 
-		}
-		catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			return null;
-		}
 	}
-	public ResultSet select(String sql) {
-		try {
-			conn = DriverManager.getConnection(db,user,pass);
-			pst = conn.prepareStatement(sql);
-			rs = pst.executeQuery();
-			return rs;
+	public ResultSet select(String sql) throws SQLException {
+		conn = DriverManager.getConnection(db,user,pass);
+		pst = conn.prepareStatement(sql);
+		rs = pst.executeQuery();
+		return rs;
 
-		}
-		catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			return null;
-		}
 	}
-	public void insert(String[] values,String table) {
-		try {
-			conn = DriverManager.getConnection(db,user,pass);
-			String sql = "insert into "+table+" values(";
-			for(int i = 0;i < values.length;i++) {
-				if(i == 0) {
-					sql = sql +  "?";
-				}
-				else {
-					sql = sql + ",?";
-				}
-			}
-			sql = sql + ");";
-			pst = conn.prepareStatement(sql);
-			for(int i = 0;i < values.length;i++) {
-				pst.setString(i + 1, values[i]);
-			}
-			pst.executeUpdate();
-		} catch (SQLException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
+	public void insert(String[] values,String table) throws SQLException {
+		conn = DriverManager.getConnection(db,user,pass);
+		StringJoiner sj = new StringJoiner(",", "(", ")");
+		String sql = "insert into "+table+" values";
+		for(int i = 0;i < values.length;i++) {
+			sj.add("?");
 		}
+		sql = sql + sj.toString() + ";";
+		pst = conn.prepareStatement(sql);
+		for(int i = 0;i < values.length;i++) {
+			pst.setString(i + 1, values[i]);
+		}
+		pst.executeUpdate();
 	}
-	public void close() {
-		try {
+
+	public void insert(String[] columnNames,String[] values,String table) throws SQLException {
+		conn = DriverManager.getConnection(db,user,pass);
+		StringJoiner sj = new StringJoiner(",", "(", ")");
+		String sql = "insert into "+table+" ";
+		for(int i = 0;i < columnNames.length;i++) {
+			sj.add(columnNames[i]);
+		}
+		sql = sql + sj.toString() + " values";
+		sj = new StringJoiner(",", "(", ")");
+		for(int i = 0;i < values.length;i++) {
+			sj.add("?");
+		}
+		sql = sql + sj.toString() + ";";
+		pst = conn.prepareStatement(sql);
+		for(int i = 0;i < values.length;i++) {
+			pst.setString(i + 1, values[i]);
+		}
+		pst.executeUpdate();
+	}
+	/**
+	 * UPDATE実行
+	 * @param keyColumnName 主キーカラム名
+	 * @param keyValue 変更する行の主キーの値
+	 * @param changeColumnName 変更する列のカラム名
+	 * @param changeValue 変更する値
+	 * @param table テーブル名
+	 * @throws SQLException
+	 */
+	public void update(String keyColumnName,String keyValue,String changeColumnName,String changeValue,String table) throws SQLException {
+		conn = DriverManager.getConnection(db,user,pass);
+		pst = conn.prepareStatement("update " + table + " set " +
+			changeColumnName + " = ? where " +
+			keyColumnName + " = ?"
+		);
+		pst.setString(1, changeValue);
+		pst.setString(2, keyValue);
+		pst.executeUpdate();
+	}
+	/**
+	 * DELETE実行
+	 * @param keyColumnName 主キーカラム名
+	 * @param keyValue 変更する行の主キーの値
+	 * @param table テーブル名
+	 * @throws SQLException
+	 */
+	public void delete(String keyColumnName,String keyValue,String table) throws SQLException {
+		conn = DriverManager.getConnection(db,user,pass);
+		pst = conn.prepareStatement("delete from " + table +
+			" where " +
+			keyColumnName + " = ?"
+		);
+		pst.setString(1, keyValue);
+		pst.executeUpdate();
+	}
+	public void close() throws SQLException {
+		if(rs != null) {
 			rs.close();
-			pst.close();
-			conn.close();
-		} catch (SQLException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
 		}
-
+		if(pst != null) {
+			pst.close();
+		}
+		if(conn != null) {
+			conn.close();
+		}
 	}
 }

@@ -26,6 +26,16 @@
 .addBtn:hover{
 	-fx-background-color:  D84315;
 }
+.orangeBtn{
+	-fx-background-color:  F4511E;
+	-fx-cursor: hand;
+	-fx-text-fill: white;
+}
+.redBtn{
+	-fx-background-color:  e53935;
+	-fx-cursor: hand;
+	-fx-text-fill: white;
+}
 .selectedSwitch{
 	-fx-background-color:  D84315;
 	-fx-border-color: BF360C;

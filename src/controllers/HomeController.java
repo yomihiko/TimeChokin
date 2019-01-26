@@ -1,6 +1,5 @@
 package controllers;
 
-import application.DatabaseConnection;
 import application.ShadowEffect;
 import application.TodayGoal;
 import javafx.event.ActionEvent;
@@ -57,8 +56,6 @@ public class HomeController extends MasterController {
 
 	@FXML
     public void onTestBtn(ActionEvent event) {
-    	DatabaseConnection maindb = new DatabaseConnection("database/.database");
-    	goalLabel_1.setText(maindb.getUser());
 
     }
     @FXML

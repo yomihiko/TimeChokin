@@ -21,6 +21,10 @@ public class MasterController{
     protected AnchorPane goalSelectSwitch;
     @FXML
     protected AnchorPane resultSelectSwitch;
+    /**
+     * データベース情報設定ファイルのパス
+     */
+    protected String databaseFilePath = "database/.database";
 	/**
 	 * 離しているときの影エフェクトの色(オレンジ系統)
 	 */

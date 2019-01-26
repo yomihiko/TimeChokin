@@ -1,16 +1,19 @@
 package application;
 
+import java.io.IOException;
+
+import dialogs.ErrDialog;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 
 public class Master extends Application {
 	private static Stage masterStage;
+	private static Stage subStage;
 	private static Master instanse;
 	@Override
 	public void start(Stage primaryStage) {
@@ -24,8 +27,40 @@ public class Master extends Application {
 			masterStage.setTitle("時間貯金箱(仮)");
 			masterStage.show();
 		} catch(Exception e) {
-			ErrDialog("ファイル読み込みエラー", "FXMLファイルの読み込みに失敗しました。");
+			ErrDialog.fxmlfileErr();
+			masterStage.close();
 		}
+	}
+	/**
+	 * サブステージを作成
+	 * @param width 幅
+	 * @param height 高さ
+	 * @param title サブステージのタイトル
+	 * @param fxmlPath 読み込むfxmlファイル
+	 */
+	public static void newStage(int width,int height,String title,String fxmlPath) {
+		subStage = new Stage();
+		AnchorPane root;
+		try {
+			root = (AnchorPane)FXMLLoader.load(instanse.getClass().getResource(fxmlPath));
+			Scene scene = new Scene(root,width,height);
+			scene.getStylesheets().add(instanse.getClass().getResource("application.css").toExternalForm());
+			subStage.setScene(scene);
+			subStage.initModality(Modality.APPLICATION_MODAL);
+			subStage.setTitle(title);
+			subStage.resizableProperty().setValue(false);
+			subStage.showAndWait();
+		} catch (IOException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+
+	}
+	/**
+	 * サブステージを閉じる
+	 */
+	public static void closeSubStage() {
+		subStage.close();
 	}
 	/**
 	 * 画面遷移
@@ -43,16 +78,10 @@ public class Master extends Application {
 			masterStage.setScene(scene);
 		} catch (Exception e) {
 			// TODO 自動生成された catch ブロック
-			ErrDialog("ファイル読み込みエラー", "FXMLファイルの読み込みに失敗しました。");
+			ErrDialog.fxmlfileErr();
+			masterStage.close();
 
 		}
-	}
-	private static void ErrDialog(String title,String messeage) {
-		Alert alt = new Alert(AlertType.ERROR);
-		alt.setTitle(title);
-		alt.setContentText(messeage);
-		alt.showAndWait();
-		masterStage.close();
 	}
 
 	public static void main(String[] args) {

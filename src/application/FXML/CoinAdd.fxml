@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="150.0" prefWidth="400.0" stylesheets="@../application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CoinAddController">
+   <children>
+      <Label layoutX="27.0" layoutY="53.0" text="コイン名">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <TextField fx:id="coinName" layoutX="152.0" layoutY="54.0" prefHeight="25.0" prefWidth="231.0" />
+      <Button fx:id="coinAddBtn" layoutX="214.0" layoutY="106.0" mnemonicParsing="false" onAction="#onCoinAddBtn" styleClass="orangeBtn" text="追 加">
+         <font>
+            <Font name="Arial" size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="cancelBtn" layoutX="299.0" layoutY="106.0" mnemonicParsing="false" onAction="#onCancelBtn" styleClass="redBtn" text="キャンセル">
+         <font>
+            <Font name="Arial" size="16.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
