@@ -1,6 +1,7 @@
 package controllers;
 
 import application.Master;
+import application.ShadowEffect;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -52,5 +53,16 @@ public class MasterController{
     @FXML
     public void onResultSelectSwitch(MouseEvent event) {
     	Master.switching("FXML/Result.fxml",masterPane.getWidth(),masterPane.getHeight());
+    }
+    @FXML
+    public void onOrangeBtnPress(MouseEvent event) {
+    	ShadowEffect.setColor(orangePressShadowColor);
+    	System.out.println(event.getButton());
+    	//ShadowEffect.setInnerShadow(event.getButton());
+    }
+    @FXML
+    public void onOrangeBtnExit(MouseEvent event) {
+    	ShadowEffect.setColor(orangeExitShadowColor);
+    	//ShadowEffect.setDropShadow(event.getButton());
     }
 }

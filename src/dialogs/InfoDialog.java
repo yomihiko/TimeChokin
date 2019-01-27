@@ -18,5 +18,8 @@ public class InfoDialog {
 	public static void coinAddDoneDialog(String name) {
 		Dialog.infoDialog("追加完了", name + "を追加しました。");
 	}
+	public static void goalAddDoneDialog() {
+		Dialog.infoDialog("追加完了","目標を追加しました。");
+	}
 
 }

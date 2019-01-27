@@ -79,6 +79,7 @@ public class Master extends Application {
 		} catch (Exception e) {
 			// TODO 自動生成された catch ブロック
 			ErrDialog.fxmlfileErr();
+			e.printStackTrace();
 			masterStage.close();
 
 		}
