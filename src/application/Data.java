@@ -1,7 +1,7 @@
 package application;
 
 public class Data {
-	protected String filepath = "database/.database";
+	protected static String filepath = "database/.database";
 	public boolean stringLengteCheck(int minlength,int maxlength,String s) {
 		if(s.length() > maxlength || s.length() < minlength) {
 			return false;

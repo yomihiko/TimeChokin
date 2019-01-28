@@ -94,6 +94,10 @@ public class GoalController extends MasterController implements Initializable {
 			}
 		}
 		if(flag) {
+			EternalGoal.nowEdit = eternalGoals[index];
+			Master.newStage(400, 150, "更新", "FXML/EternalGoalEdit.fxml");
+			EternalGoal.nowEdit = null;
+			load();
 
 		}
 		else {

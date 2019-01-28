@@ -21,9 +21,9 @@ public class EternalGoal extends Data {
 	private int coinID;
 	private String fxmlEditID;
 	private String fxmlDelID;
-	private String[] columnNames = {"Amount","CoinID"};
-	private String tableName = "EternalGoal";
-	private String keyName = "ID";
+	private static  String[] columnNames = {"Amount","CoinID"};
+	private static  String tableName = "EternalGoal";
+	private static String keyName = "ID";
 	/**
 	 * 目標の最小時間(分)
 	 */
@@ -34,6 +34,8 @@ public class EternalGoal extends Data {
 	private int maxtime = 1439;
 
 	private boolean flag = false;
+
+	public static EternalGoal nowEdit;
 
 
 	public void set(int id,int amount,int coinID) {
@@ -62,6 +64,29 @@ public class EternalGoal extends Data {
 		else {
 			ErrDialog.internalErr("目標時間", mintime, maxtime);
 		}
+	}
+
+	public static EternalGoal[] select(int count) {
+		EternalGoal[] egs = new EternalGoal[count];
+		EternalGoal tmp;
+		try {
+			DatabaseConnection db = new DatabaseConnection(filepath);
+			ResultSet rs = db.select("select * from " + tableName);
+			int index = 0;
+			while(index < count && rs.next()) {
+				tmp = new EternalGoal();
+				tmp.set(rs.getInt(keyName),rs.getInt(columnNames[0]),rs.getInt(columnNames[1]));
+				egs[index] = tmp;
+				index++;
+			}
+			rs.close();
+			db.close();
+		}catch (SQLException e) {
+			// TODO: handle exception
+			ErrDialog.databaseErr();
+			e.printStackTrace();
+		}
+		return egs;
 	}
 	/**
 	 * IDが一致するかどうか
@@ -92,7 +117,6 @@ public class EternalGoal extends Data {
 			DatabaseConnection db = new DatabaseConnection(filepath);
 			ResultSet rs = db.select("select CoinName from Coin where CoinID = ?", Integer.toString(coinID));
 			rs.next();
-
 			String name =  rs.getString("CoinName");
 			rs.close();
 			db.close();
@@ -102,6 +126,19 @@ public class EternalGoal extends Data {
 			// TODO: handle exception
 			return "";
 		}
+	}
+	public double rate(int bank) {
+		if(amount == 0) {
+			return 0.0;
+		}
+		double tmp = (double) bank / (double) amount;
+		if(tmp >= 1.0) {
+			return 1.0;
+		}
+		return tmp;
+	}
+	public int getCoinID() {
+		return coinID;
 	}
 	/**
 	 * 目標時間を取得
@@ -134,16 +171,19 @@ public class EternalGoal extends Data {
 			return false;
 		}
 	}
-	public void update() {
+	public boolean update() {
 		if(flag == false) {
-			return;
+			return false;
 		}
 		try {
 			DatabaseConnection db = new DatabaseConnection(filepath);
 			db.update(keyName, Integer.toString(id), columnNames[0], Integer.toString(amount), tableName);
 			db.close();
+			InfoDialog.changeDoneDialog(nowEdit.getCoinName());
+			return true;
 		} catch (SQLException e) {
 			ErrDialog.databaseErr();
+			return false;
 		}
 	}
 	public void delete() {

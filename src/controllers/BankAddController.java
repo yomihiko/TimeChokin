@@ -5,9 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import application.Bank;
 import application.Coin;
 import application.DatabaseConnection;
-import application.EternalGoal;
 import application.Master;
 import dialogs.ErrDialog;
 import javafx.event.ActionEvent;
@@ -17,7 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
-public class EternalGoalAddController extends MasterController implements Initializable {
+public class BankAddController extends MasterController implements Initializable {
 	@FXML
 	private TextField time;
 	@FXML
@@ -29,11 +29,12 @@ public class EternalGoalAddController extends MasterController implements Initia
 	@FXML
 	private ComboBox<Coin> coinSelect;
 
-	private String tableName = "Coin";
-
 	private String coinIDColumnName = "CoinID";
 
 	private String coinNameColumnName = "CoinName";
+
+
+	private String tableName = "Coin";
 
 	// Event Listener on Button[#goalAddBtn].onAction
 	@FXML
@@ -46,13 +47,11 @@ public class EternalGoalAddController extends MasterController implements Initia
 			try {
 				int i_time = Integer.parseInt(time.getText());
 				int i_minute = Integer.parseInt(minute.getText());
-				EternalGoal eg = new EternalGoal();
 				int amount = i_time * 60 + i_minute;
-				
-				eg.set(amount, coinSelect.getValue().getCoinID());
-				if(eg.insert()) {
+				Bank bank = new Bank();
+				bank.set(Bank.getDate(), amount, coinSelect.getValue().getCoinID());
+				if(bank.insert()) {
 					Master.closeSubStage();
-
 				}
 
 			}catch (NumberFormatException e) {
@@ -89,6 +88,5 @@ public class EternalGoalAddController extends MasterController implements Initia
 			ErrDialog.databaseErr();
 			e.printStackTrace();
 		}
-
 	}
 }

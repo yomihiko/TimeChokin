@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import application.Bank;
 import application.Check;
 import application.Coin;
 import application.DatabaseConnection;
@@ -17,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
@@ -34,6 +36,8 @@ public class CoinController extends MasterController implements Initializable {
     private ComboBox<Coin> coinSelect;
     @FXML
     private TextField coinNameField;
+    @FXML
+    private Label sumTimeLabel;
 
     private String tableName = "Coin";
     private String coinIDColumnName = "coinID";
@@ -120,10 +124,14 @@ public class CoinController extends MasterController implements Initializable {
     public void onCoinSelect(ActionEvent event) {
     	if(coinSelect.getValue() != null) {
     		coinNameField.setText(coinSelect.getValue().toString());
+    		int sumTime = Bank.allDaySum(coinSelect.getValue().getCoinID());
+
+    		sumTimeLabel.setText((sumTime / 60) + "時間" + (sumTime % 60) + "分");
     	}
     	else {
     		coinNameField.setText("");
     	}
+    	sumTimeLabel.setVisible(true);
     	setDisble(false);
     }
     /**
@@ -147,6 +155,7 @@ public class CoinController extends MasterController implements Initializable {
 			// TODO 自動生成された catch ブロック
 			ErrDialog.databaseErr();
 		}
+		sumTimeLabel.setVisible(false);
 		setDisble(true);
     }
     /**
